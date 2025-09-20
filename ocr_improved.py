@@ -91,6 +91,12 @@ class OcrApi:
                                 for part in page.get("parts", []):
                                     if part.get("type") == "text" and "text" in part:
                                         extracted_text += part["text"] + "\n"
+                    output_filename = os.path.splitext(os.path.basename(file_path))[0] + "_ocr.json"
+                    output_path = os.path.join(self.pdfs_dir, output_filename)
+                    
+                    with open(output_path, "w", encoding="utf-8") as f:
+                        
+                        json.dump([extracted_text], f, ensure_ascii=False, indent=2)
                     texts.append(extracted_text.strip())
                     print(f"✅ OCR done: {file_path}")
                 else:
