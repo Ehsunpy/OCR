@@ -1,4 +1,12 @@
+import os.path
+
 import requests
+import json
+import sys
+
+from tqdm import tqdm
+
+
 def PdfToText(pdf_path):
     url = "http://78.38.161.78:3085/ocr"
     # pdf_path = "m.pdf"
@@ -22,3 +30,24 @@ def PdfToText(pdf_path):
     except requests.exceptions.RequestException as e:
         print(f"An error occurred: {e}")
 
+
+def save_json(data, path):
+    """ذخیره داده در فایل JSON"""
+    try:
+        with open(path, "w", encoding="utf-8") as json_file:
+            json.dump(data, json_file, ensure_ascii=False, indent=2)
+        print(f"Saved JSON to {path}")
+    except Exception as e:
+        print(f"Error while saving JSON: {e}")
+if __name__ == "__main__":
+    path=sys.argv[1]
+    base_files =os.listdir(path)
+    base_files = [i for i in base_files if i.endswith('.pdf')]
+    for i in tqdm(base_files):
+        pdf_file = os.path.join(path, i)
+        os.path.basename(pdf_file)
+        output_json = f"{pdf_file}.json"
+
+        result = PdfToText(pdf_file)
+        if result:
+            save_json(result, output_json)

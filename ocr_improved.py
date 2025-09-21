@@ -5,6 +5,7 @@ This module provides functionality for extracting text from PDF files using
 the alefba.roshan-ai.ir س AI OCR API service. It handles finding PDF files in a directory
 and processing them through the OCR service.
 """
+import sys
 
 import requests
 import os
@@ -69,6 +70,7 @@ class OcrApi:
                 texts.append("")
                 continue
             try:
+
                 headers = {"Authorization": f"Token {self.token}"}  # اینجا اصلاح شد
                 with open(file_path, "rb") as f:
                     files = {
@@ -106,3 +108,7 @@ class OcrApi:
                 print(f"❌ Error processing {file_path}: {e}")
                 texts.append("")
         return texts
+if __name__ == "__main__":
+    ocr = OcrApi(pdfs_dir=sys.argv[1])
+    ocr.find_pdfs()
+    ocr.ocr_pdfs()
