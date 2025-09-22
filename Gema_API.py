@@ -1,6 +1,6 @@
 from openai import OpenAI
 import markdownify
-def refine_and_mark():
+def refine_and_mark(ocr_text):
     '''
     شما ورودی تکست خام میدهدی و مدل زبانی اصلاحات لازم رو انجام خواهد داد
     :param ocr_text:
@@ -11,10 +11,10 @@ def refine_and_mark():
       api_key="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",
     )
     # برای مثال یک متن که تبدیل شده
-    ocr_text = """
-     '--- Page 1 ---\n\n\n| ۳.شماره بخشنامه: 1100 CIR  | ۴.تاریخ صدور:۹۶/۲/۱۹  | ۵.پیوست وضمائم: آئین نامه اقامه نماز شماره ۰۱,۱۲,۱۳۷۵-۵۱۸۶۷۰ ت ۵۱۷۳۲۳-۳۰,۰۱,۱۳۷۵-۳۶۷  |\n| ۶.بخش پاسخگو: شورای فرهنگی سازمان  | ۷. تاریخ اجرا: ۹۶/۲/۱۹  | ۸.قوانین مرجع مرتبط: آئین نامه ترویج و توسعه فرهنگ اقامه نماز  |\n| ۹. وضعیت بخشنامه های متاثر:  | ۱۰. شماره بخشنامه\u200cهای متاثر:  |   |\n\n| ۱.موضوع بخشنامه: اقامه نماز در پروازها  |\n| ۲.دفتر صادر کننده: شورای فرهنگی سازمان  |\n| ۱۱. مقدمه و تاریخچه:  |\n| به منظور گسترش فرهنگ اقامه نماز جهت مسافرین بخشنامه نامه ذیل صادر شده است.  |\n| ۱۲. هدف:  |\n| اشاعه فرهنگ نماز  |\n| ۱۳. فهرست گیرندگان: کلیه شرکت\u200cهای هواپیمایی  |\n| ۱۴. مفاد بخشنامه:  |\n| به منظور رعایت اوقات شرعی اقامه نماز مسافرین و احترام به شعائر اسلامی، موارد زیر جهت اجرا ابلاغ می\u200cشود:  |\n\n۱- تمامی مسافران هواپیماهای ایرانی از تمام مبادی و مقاصد و مسافران خطوط هوایی خارجی که از مبادی ایران و یا به مقاصد درون ایران پرواز\nمی\u200cکنند، دارای حق اقامه نمازهای یومیه در شرایط شایسته برخوردار بوده و این حق باید به رسمیت شناخته شده و مورد احترام قرار گیرد.\n۲- در صورتی که در زمان انجام یک پرواز، وقت شرعی نماز آغاز و در همان پرواز پایان یابد، خطوط هوایی موظف به رعایت موارد زیر خواهندبود: \\\nالف) اطلاعات مورد تقاضای مسافران شامل زمان شرعی و جهت قبله را در اختیار مسافران متقاضی قرار دهند.\nب) در صورت امکان، مکانی مناسب و ایمن جهت اقامه فریضه نماز به مسافران معرفی نمایند.\n\nتبصره: در مواردی که وقت اقامه نماز پس از فرود هواپیما منقضی می\u200cشود لیکن فرصت کافی جهت انجام تشریفات ورود به مقصد و اقامه نماز\nوجود ندارد، رعایت مفاد فوق ضروری است.\n\n۳- در صورتی که وقت اقامه نماز، قبل از آغاز برنامه سوار کردن مسافران شروع شود و یا فرصت زمانی اقامه نماز و طول پرواز به گونه\u200cای باشد که \\\nاقامه نماز در زمان پرواز امکان\u200cپذیر نباشد، سوار نمودن مسافران حداقل ۱۵ دقیقه بعد از ورود به وقت نماز آغاز شود و یا برنامه پرواز به گونه\u200cای ]\nتغییر یابد که امکان اقامه نماز پس از فرود و انجام تشریفات ورود به مقصد برای مسافران مهیا شود.\n\n۴- در مواردی که رعایت موارد فوق منجر به نقض الزامات ایمنی و به خطر افتادن جان مسافران شود، رعایت الزامات ایمنی ضروری بوده و \\\nمحدودیت موجود با رعایت احترام و حقوق مسافران به آنها اعلام شده و در خصوص راهکارهای جایگزین، حداکثر همکاری ممکن با مسافران]\nبه عمل\u200cآید.\n\n۵- شرکت\u200cهای هواپیمائی موظف هستند دستورالعمل\u200cها و فرآیندهای مرتبط با برنامه\u200cریزی و مدیریت پرواز را به گونه\u200cای اصلاح و بازنگری نمایندکه]\nمفاد این ابلاغیه در عملیات جاری شرکت\u200cها رعایت گردد.']
-
-    """
+#     ocr_text = """
+# Out[39]: ['--- Page 1 ---\n\n\n\n\nجمهوری اسلامی ایران\nوزارت راه و ترابری.\n\nسازمان راهداری و حمل و نقل جاده ای،\n\nادارات کل / سازمان حمل و نقل و پایانه های سراسر کشور\n\nموضوع : اصلاح ماده ۱۱ ضوابط حمل و نقل مسافر\n\nبا سلام\n\nشماره :\nتاریخ ، ،\nپیوست :\n\n\n\n۱۷۱\n\n۱۰۰۵\n\n--۱۳۸۶-۸%-۲۲\nنرارب.\n\nبه استناد ماده ۹آیین نامه حمل بار و مسافر و مدت لغو پروانه فعالیت و تعطیلی موسسات\nحمل و نقل جاده ای و تفویض اختیار مقام عالی وزارت به شماره ۷۹۳۷/۱۱ مورخ ۷۹/۶/۲۷ ، ماده ۱۱ ضوابط\nحمل و نقل مسافر موضوع ماده ۹ آیین نامه باد شده به شرح زیر اصلاح می گردد :\n\nماده ۱۱ -شرکتها و موسسات مسافربری مکلفند قبل از برقراری سرویس و صدور بلیت در مسیرهای،\nمختلف نسبت به ایجاد شعبه و یا عقد قرارداد نمایندگی با سایر شرکتها و موسسات مسافربری همنام\nاقدام لمایند.\n\nتبصره (۱) -همنامی عبارتست از انتخاب نام یکسان برای شرکتهای همکار .\n\nتبصره (۲) - به مجموعه شرکتهای حمل و نقل مسافر که نحت نام واحد در سراسر کشور فعالیت می نمایند\nشبکه شرکتهای مسافربری إطلاق می شود .\n\nتبصره (۳) - شرکت دارنده پام اصلی شرکتی است که دارای تقدم زمانی در لبت نام مزبور است .\nتبصره (۴) - هر شرکت مسافربری می تواند صرفا یک لمایلده هملام یا یک شعبه در شهر مقصد داشته\nباشد . هرگاه در شهر مقصد بیش از یک پایانه عمومی مسافری وجود داشته باشد ، شرکت می تواند در\nهر یک از پایانه های موصوف دارای یک نمایلده هملام باشد .\n\nاجرای این اصلاحیه مطابق برنامه زمانبندی و دستورالعمل اجرائی خواهد بود که متعاقباً توسط دفتر\nحمل و نقل کالا و مسافر تهیه و ابلاغ می گردد . کلیه شرکتها و موسساتی که پس از ابلاغ دستورالعمل\nآدرس: تهران - بلوار کشاورز - خیابان فلسطین جلوبی - خیابان دمشق - پلاک ۱۹ تلفن ۸۸ - ۸۸۸۰۴۳۷۹\nکدپستی: ۱۴۱۶۷۵۳۹۴۱ -صندوق پستی : ۳۷۷۳-۱۴۱۵۵\n\n--- Page 2 ---\n\n\n| جمهوری اسلامی ایران  | شماره :  |\n| وزارت راه و ترابری.  | تاریخ :  |\n| سازمان راهداری و حمل و نقل جاده ای  | پیوست ،  |\n\nاجرایی این اصلاحیه توسط دفتر حمل و نقل کالا و مسافر مشمول اجرای طرح همنامی می شوند در صورت\nعدم تمایل به اعطای نمایندگی به شرکتهای همنام در مقصد می توانند از تسهیلات ویژه تأسیس شعب\nمندرج در تبصره ۲ و ۵ ماده ۱۴ و تبصره ۴ و ۵ ماده ۱۵ و همچنین ماده ۱۶ بخشنامه شماره ۸۷۳۵/۷۱\n\nمورخ ۸۱/۲/۱۸ بهره مند شوند .\n\n\n\n\n\n/ محمد بخارایر\n\nمعاون وزیر و رئیس سازمان\n\nرونوشت :\n\n- اعضاء محترم هیأت عامِل برای آگاهی\n- فرمانده محترم پلیس راه برای آگاهی\n- اداره کل حراست برای اطلاع\n\n- دفتر ریاست و روابط عمومی برای اطلاع\n- دفتر حقوقی و تدوین مقررات برای اطلاع\n\n- دفتر حمل و نقل کالا و مسافر برای اطلاع و اقدام لازم\nاقدام کننده : آقای آدم نژاد\n\nآدرس: تهران - بلوار کشاورز - خیابان فلسطین جلوبی - خیابان دمشق - پلاک ۱۹ تلفن ۸۸ - ۸۸۸۰۴۳۷۹\nکدپستی: ۱۴۱۶۷۵۳۹۴۱ -صندوق پستی: ۳۷۷۳-۱۴۱۵۵']
+#
+#     """
 
     completion = client.chat.completions.create(
       model="google/gemma-3-27b-it:free",
@@ -24,15 +24,37 @@ def refine_and_mark():
           "content": [
             {
               "type": "text",
-              "text": f"""تو یک ویرایشگر متن هوشمند هستی. من یک متن خام از OCR بهت می‌دهم. وظایف تو:  
-    
-    1. اصلاح غلط‌های املایی و نگارشی.  
-    2. حفظ کامل قالب Markdown (هر چیزی که به صورت لیست، تیتر، کد یا نقل‌قول آمده باید درست و تمیز بماند).  
-    3. بازسازی جاهایی که کاراکترها خراب شده یا به‌هم‌ریخته هستند، به‌گونه‌ای که متن روان و قابل فهم شود.  
-    4. خروجی فقط به صورت Markdown بده، بدون هیچ توضیح اضافه.  
-    5. متن را در قالب **Markdown منطقی و خوانا** بازنویسی کن.
-    
-    اینجا متن خام OCR است:  
+              "text": f"""You are a highly skilled Persian language expert. Your task is to proofread and correct OCR-generated Persian text, ensuring accuracy, readability, and proper formatting.
+
+- Correct any spelling and grammar errors in the provided text.
+- Add punctuation where necessary to improve clarity.
+- Remove unnecessary line breaks within paragraphs.
+- Insert a line break at the beginning of each new high-level section to improve structure.
+- Ensure that LaTeX formulas remain in English and are not modified.
+- Convert any HTML tags into proper Markdown syntax.
+- Maintain the original content and meaning of the text.
+
+- Fix reversed or broken characters and words so that the text reads correctly from right to left.
+- Correct common OCR mistakes (e.g., incorrect letters, missing or extra diacritics).
+- Restore proper punctuation, spacing, and paragraph breaks.
+- Preserve the original meaning and structure of the text.
+- Remove unnecessary line breaks inside paragraphs, but keep logical breaks between sections.
+
+**Important:**
+
+- Do not modify the content itself; focus solely on corrections and formatting.
+- Ensure LaTeX formulas remain unchanged and are not translated.
+- Reconstruct tables properly if there are any.
+  - Ensure tables render correctly in Markdown and are readable.
+
+- Provide the entire output strictly in valid Markdown format.
+- Output a single well-formatted Markdown text string.
+- Follow Persian grammar and punctuation rules carefully.
+- Prioritize readability and clarity.
+
+Please provide only the corrected text in Markdown format as the final output, without any extra explanations or notes.
+
+ This is the raw text:
     {ocr_text}
     """
             }
@@ -45,6 +67,6 @@ def refine_and_mark():
     markdown_string = markdownify.markdownify(completion.choices[0].message.content, heading_style='ATX')
     return markdown_string
     # 3
-markdown_string = refine_and_mark()
-with open('sample.md', 'w',encoding="utf-8") as f:
-    f.write(markdown_string)
+# markdown_string = refine_and_mark()
+# with open('sample4.md', 'w',encoding="utf-8") as f:
+#     f.write(markdown_string)

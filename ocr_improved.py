@@ -6,7 +6,7 @@ the alefba.roshan-ai.ir س AI OCR API service. It handles finding PDF files in a
 and processing them through the OCR service.
 """
 import sys
-
+from tqdm import tqdm
 import requests
 import os
 import json
@@ -63,7 +63,7 @@ class OcrApi:
             list[str]: List of extracted texts for each PDF file
         """
         texts = []
-        for file_path in self.file_paths:
+        for file_path in tqdm(self.file_paths):
             print(f"\nProcessing: {file_path}")
             if not os.path.exists(file_path):
                 print(f"File not found: {file_path}")
@@ -77,7 +77,7 @@ class OcrApi:
                         "document": (os.path.basename(file_path), f, "application/pdf")
                     }
                     response = requests.post(
-                        self.api_url, headers=headers, files=files, timeout=120
+                        self.api_url, headers=headers, files=files, timeout=500
                     )
                 if response.status_code == 200:
                     response_data = response.json()
