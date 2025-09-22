@@ -5,6 +5,14 @@ import os
 import random
 from tqdm import tqdm
 
+import arabic_reshaper
+from bidi.algorithm import get_display
+
+
+def reshape_fars(text):
+    reshaped_text = arabic_reshaper.reshape(text)
+    return get_display(reshaped_text)
+
 
 def doc_to_json(docx_file):
 
@@ -19,7 +27,8 @@ def doc_to_json(docx_file):
     document = docx.Document(docx_file)
 
     # گرفتن متن همه پاراگراف‌ها
-    paragraphs = [p.text.strip() for p in document.paragraphs if p.text.strip()]
+    paragraphs = [reshape_fars(p.text.strip()) for p in document.paragraphs if p.text.strip()]
+
 
     # ذخیره به صورت آرایه JSON
     with open(output_json, "w", encoding="utf-8") as f:
