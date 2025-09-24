@@ -1,11 +1,12 @@
 import json
 import os
+import sys
 import time
 import random
 from tqdm import tqdm
 from local_llm import refine_and_mark
 
-INPUT_DIR = r'G:\path\to\json_folder'  # مسیر پوشه حاوی فایل‌های JSON
+INPUT_DIR =sys.argv[1]  # مسیر پوشه حاوی فایل‌های JSON
 OUTPUT_DIR = os.path.join(INPUT_DIR, "processed")
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
