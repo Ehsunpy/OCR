@@ -4,7 +4,7 @@ import time
 import random
 from tqdm import tqdm
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from local_llm import refine_and_mark_chat  # نسخه chat که چانک‌ها context دارند
+from OLLAMArequestMULTY import refine_and_mark_chat  # نسخه chat که چانک‌ها context دارند
 
 INPUT_DIR = r'G:\path\to\json_folder'  # مسیر پوشه JSON ها
 OUTPUT_DIR = os.path.join(INPUT_DIR, "processed")

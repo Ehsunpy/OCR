@@ -4,7 +4,7 @@ import sys
 import time
 import random
 from tqdm import tqdm
-from local_llm import refine_and_mark
+from Gema_API import refine_and_mark
 
 INPUT_DIR =sys.argv[1]  # مسیر پوشه حاوی فایل‌های JSON
 OUTPUT_DIR = os.path.join(INPUT_DIR, "processed")
@@ -16,7 +16,18 @@ def recommended_chunk_size(num_ctx=32000, reserve_tokens=300, chars_per_token=2)
     return int(input_tokens * chars_per_token)
 
 
-CHUNK_SIZE = recommended_chunk_size(num_ctx=32000, reserve_tokens=300, chars_per_token=2)  # ~63k کاراکتر
+# CHUNK_SIZE = recommended_chunk_size(num_ctx=32000, reserve_tokens=300, chars_per_token=2)  # ~63k کاراکتر
+def safe_chunk_size(max_tokens=32768, prompt_tokens=3000, reserve_tokens=3000, chars_per_token=2):
+    """
+    محاسبه اندازه امن هر chunk بر اساس ظرفیت کانتکست مدل
+    """
+    input_tokens = max_tokens - prompt_tokens - reserve_tokens
+    return int(input_tokens * chars_per_token)
+
+# استفاده
+CHUNK_SIZE = safe_chunk_size(max_tokens=32768, prompt_tokens=3000, reserve_tokens=3000, chars_per_token=2) -500
+print(f"✅ CHUNK_SIZE امن: {CHUNK_SIZE} کاراکتر")
+
 
 
 def split_text(text: str, chunk_size: int):

@@ -128,7 +128,7 @@ if __name__ == "__main__":
 
     for pdf in tqdm(paths, desc="Processing PDFs"):
         pdf_path = os.path.join(base_dir, pdf)
-        all_text = ocr_from_pdf_multiproc(pdf_path)
+        all_text = ocr_from_pdf_multiproc(pdf_path, dpi=150)
 
         docx_filename = os.path.splitext(pdf)[0] + ".docx"
         docx_path = os.path.join(ocr_dir, docx_filename)

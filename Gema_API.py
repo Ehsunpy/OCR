@@ -8,7 +8,7 @@ def refine_and_mark(ocr_text):
     '''
     client = OpenAI(
       base_url="https://openrouter.ai/api/v1",
-      api_key="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",
+      api_key="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",
     )
     # برای مثال یک متن که تبدیل شده
 #     ocr_text = """
@@ -17,7 +17,7 @@ def refine_and_mark(ocr_text):
 #     """
 
     completion = client.chat.completions.create(
-      model="google/gemma-3-27b-it:free",
+      model="qwen/qwen3-30b-a3b:free",
       messages=[
         {
           "role": "user",
@@ -39,7 +39,6 @@ def refine_and_mark(ocr_text):
 - Restore proper punctuation, spacing, and paragraph breaks.
 - Preserve the original meaning and structure of the text.
 - Remove unnecessary line breaks inside paragraphs, but keep logical breaks between sections.
-
 **Important:**
 
 - Do not modify the content itself; focus solely on corrections and formatting.

@@ -39,6 +39,11 @@ def is_digital_pdf(pdf_path):
         return True
     except:
         return False
+import re
+
+def clean_text(text: str) -> str:
+    # حذف کاراکترهای NULL و کنترل غیرقابل چاپ
+    return re.sub(r'[\x00-\x08\x0B\x0C\x0E-\x1F]', ' ', text)
 
 def extract_text_from_digital_pdfs(input_dir):
     text_dir = os.path.join(input_dir, "texts")
@@ -62,11 +67,12 @@ def extract_text_from_digital_pdfs(input_dir):
                     docx_filename = os.path.splitext(file)[0] + ".docx"
                     docx_path = os.path.join(text_dir, docx_filename)
                     fixed_text = fix_persian_text(all_text)
+                    all_text = clean_text(fixed_text)  # 🟢 پاکسازی متن
 
-                    print(fixed_text)
+                    print(all_text)
                     document = Document()
                     # کل متن رو یک پاراگراف اضافه کن
-                    document.add_paragraph(fixed_text)
+                    document.add_paragraph(all_text)
                     document.save(docx_path)
 
                 except Exception as e:

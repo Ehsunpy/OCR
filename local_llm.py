@@ -67,7 +67,7 @@ def refine_and_mark(ocr_text):
     response = client.chat(
         model=model,
         messages=messages,
-        options={"temperature": 0.7}
+        options={"temperature": 1}
     )
 
     print(response.message.content)
