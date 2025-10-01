@@ -18,6 +18,7 @@ class OcrApi:
     def __init__(
         self,
         api_url="https://alefba.roshan-ai.ir/api/read_document/",
+        # api_url="https://alefba.roshan-ai.ir/api/download_word/",
         token="e7bf08c5b2e221c86d76ab2a697801672be7f4d3",
         pdfs_dir=r"C:\Users\Ehsan\Desktop\ForLak1\Digtal\OcrAffterDigit\PDFs",
     ):
