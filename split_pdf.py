@@ -3,7 +3,7 @@ import sys
 
 from PyPDF2 import PdfReader, PdfWriter
 
-def split_pdf(input_path, pages_per_split=15):
+def split_pdf(input_path, pages_per_split=20):
     # اسم فایل اصلی بدون پسوند
     base_name = os.path.splitext(os.path.basename(input_path))[0]
 
